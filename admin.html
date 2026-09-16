@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLAYFORGE Hub — Admin Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --teal: #0d9488; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --line: #334155; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); padding: 40px 20px; }
+    .container { max-width: 650px; margin: 0 auto; background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--line); }
+    h1 { font-size: 24px; margin-bottom: 20px; color: var(--teal); }
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #94a3b8; }
+    input[type="text"], input[type="number"], input[type="password"], select, textarea {
+      width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--line);
+      background: #0f172a; color: #fff; font-family: inherit; font-size: 14px;
+    }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    button {
+      width: 100%; padding: 12px; background: var(--teal); color: #fff; border: none;
+      border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 10px;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #log { margin-top: 20px; padding: 12px; background: #0f172a; border-radius: 8px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>PLAYFORGE Hub Admin Upload</h1>
+    
+    <div class="field">
+      <label>GitHub Personal Access Token (PAT)</label>
+      <input type="password" id="patToken" placeholder="Paste github_pat_... here" />
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Category</label>
+        <select id="itemCategory">
+          <option value="games">Game (games/)</option>
+          <option value="apps">App (apps/)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Folder Name (e.g. MyNewGame)</label>
+        <input type="text" id="folderName" placeholder="MyNewGame" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>App/Game Title</label>
+      <input type="text" id="appName" placeholder="My Cool Game" />
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Package Name</label>
+        <input type="text" id="packageName" placeholder="com.playforge.cube.mycoolgame" />
+      </div>
+      <div class="field">
+        <label>Version</label>
+        <input type="text" id="appVersion" value="1.0.0" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Price (USD)</label>
+        <input type="number" id="appPrice" value="0" step="0.01" />
+      </div>
+      <div class="field">
+        <label>App Size</label>
+        <input type="text" id="appSize" placeholder="25 MB" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Short Description</label>
+      <input type="text" id="shortDesc" placeholder="Brief summary for store list" />
+    </div>
+
+    <div class="field">
+      <label>Full Description</label>
+      <textarea id="fullDesc" rows="3"></textarea>
+    </div>
+
+    <div class="field">
+      <label>App Icon (.png)</label>
+      <input type="file" id="iconFile" accept="image/png, image/jpeg" />
+    </div>
+
+    <div class="field">
+      <label>Screenshots (Multiple allowed)</label>
+      <input type="file" id="shotFiles" accept="image/png, image/jpeg" multiple />
+    </div>
+
+    <div class="field">
+      <label>APK File (.apk)</label>
+      <input type="file" id="apkFile" accept=".apk" />
+    </div>
+
+    <button id="uploadBtn">Upload & Commit Package</button>
+    <div id="log"></div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

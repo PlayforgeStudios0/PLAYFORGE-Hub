@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLAYFORGE Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <i class="ri-gamepad-line"></i>
+      <span>PLAYFORGE Hub</span>
+    </div>
+    <div class="search-bar">
+      <i class="ri-search-line"></i>
+      <input type="text" id="searchInput" placeholder="Search apps & games..." />
+    </div>
+  </nav>
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <h1>Discover Apps & Games</h1>
+    <p>Direct APK downloads and premium titles powered by Playforge.</p>
+    <div class="hero-search">
+      <i class="ri-search-line"></i>
+      <input type="text" id="heroSearchInput" placeholder="Search title, package, or tag..." />
+    </div>
+  </header>
+
+  <!-- Stats Bar -->
+  <section class="stats-bar">
+    <div class="stat"><span id="statTotal">0</span><label>Total Items</label></div>
+    <div class="stat"><span id="statGames">0</span><label>Games</label></div>
+    <div class="stat"><span id="statApps">0</span><label>Apps</label></div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    <div class="controls">
+      <div class="pills" id="categoryPills">
+        <button class="pill active" data-category="all">All</button>
+        <button class="pill" data-category="games">Games</button>
+        <button class="pill" data-category="apps">Apps</button>
+      </div>
+      <div class="meta-info">
+        <span id="catalogTitle">All Titles</span>
+        <span id="resultCount">0 results</span>
+      </div>
+    </div>
+
+    <div id="statusBox" class="status-box" hidden></div>
+    <div id="appGrid" class="app-grid"></div>
+  </main>
+
+  <!-- Item Detail Modal -->
+  <div id="detailModal" class="modal-backdrop">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose"><i class="ri-close-line"></i></button>
+      
+      <div class="m-header">
+        <img id="mIcon" class="m-icon" src="" alt="App Icon" />
+        <div class="m-title-area">
+          <h2 id="mName">App Title</h2>
+          <span id="mPackage" class="m-package">com.playforge.app</span>
+          <span id="mCategory" class="m-badge">Category</span>
+        </div>
+      </div>
+
+      <div class="m-stats">
+        <div class="m-stat"><i class="ri-star-fill"></i> <span id="mRating">5.0</span></div>
+        <div class="m-stat"><i class="ri-download-cloud-line"></i> <span id="mDownloads">0</span></div>
+        <div class="m-stat"><div id="mPriceBlock" class="price-block">Free</div></div>
+      </div>
+
+      <p id="mShort" class="m-short"></p>
+
+      <div class="m-section">
+        <h3>Screenshots</h3>
+        <div id="mScreenshots" class="screenshot-row"></div>
+      </div>
+
+      <div class="m-section">
+        <h3>Description</h3>
+        <p id="mDesc" class="m-desc"></p>
+      </div>
+
+      <div class="m-section" id="mNotesBlock" hidden>
+        <h3>What's New</h3>
+        <p id="mNotes" class="m-notes"></p>
+      </div>
+
+      <div class="m-meta-grid">
+        <div><label>Version</label><span id="mVersion">1.0.0</span></div>
+        <div><label>Size</label><span id="mSize">0 MB</span></div>
+        <div><label>Updated</label><span id="mUpdated">Recently</span></div>
+      </div>
+
+      <div id="mAction" class="m-action"></div>
+      <div id="paypalBlock"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; <span id="year"></span> PLAYFORGE. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
