@@ -112,14 +112,10 @@ async function loadAll() {
     );
     
     allItems = items.filter(Boolean);
-    if (allItems.length === 0) {
-      showStatus("empty");
-    } else {
-      updateStats();
-      render();
-      hideStatus();
-      checkDeepLink();
-    }
+    hideStatus();
+    updateStats();
+    render();
+    checkDeepLink();
   } catch (err) {
     showStatus("error", err.message);
   }
@@ -133,19 +129,19 @@ function showStatus(kind, message) {
   
   if (kind === "loading") {
     box.innerHTML = `<span class="status-icon"><i class="ri-loader-4-line"></i></span>
-      <h3>Loading Store Catalog…</h3><p>Connecting to repository contents.</p>`;
+      <h3>Loading Store Catalog…</h3><p>Fetching latest repository updates.</p>`;
   } else if (kind === "error") {
     box.innerHTML = `<span class="status-icon"><i class="ri-error-warning-line"></i></span>
-      <h3>Catalog Unavailable</h3>
-      <p>${message || "Ensure the GitHub repository is public."}</p>
+      <h3>Unable to Load Content</h3>
+      <p>${message || "Please check your internet connection or repository settings."}</p>
       <button class="retry-btn" onclick="loadAll()">Retry</button>`;
-  } else if (kind === "empty") {
-    box.innerHTML = `<span class="status-icon"><i class="ri-inbox-line"></i></span>
-      <h3>No Items Available</h3>
-      <p>Upload packages using your admin panel to list them here.</p>`;
   }
 }
-function hideStatus() { $("#statusBox").hidden = true; }
+
+function hideStatus() { 
+  $("#statusBox").hidden = true; 
+  $("#statusBox").innerHTML = "";
+}
 
 function updateStats() {
   const games = allItems.filter((i) => i.category === "games").length;
@@ -174,10 +170,25 @@ function render() {
   $("#catalogTitle").textContent = category === "all" ? "All Titles" : category === "games" ? "Games" : "Apps";
 
   if (list.length === 0) {
-    grid.innerHTML = `<div class="status-box" style="grid-column: 1/-1;"><span class="status-icon"><i class="ri-search-line"></i></span>
-      <h3>No Matches Found</h3><p>Try refining your search terms.</p></div>`;
+    if (query.trim().length > 0) {
+      grid.innerHTML = `
+        <div class="status-box" style="grid-column: 1/-1;">
+          <span class="status-icon"><i class="ri-search-line"></i></span>
+          <h3>No Matches Found</h3>
+          <p>No results found for "${escapeHtml(query)}". Try refining your search query.</p>
+        </div>`;
+    } else {
+      const activeCategory = category === "all" ? "titles" : category;
+      grid.innerHTML = `
+        <div class="status-box" style="grid-column: 1/-1;">
+          <span class="status-icon"><i class="ri-folder-unknow-line"></i></span>
+          <h3>No Products Available</h3>
+          <p>There are currently no ${activeCategory} listed. Please check back later for updates.</p>
+        </div>`;
+    }
     return;
   }
+  
   list.forEach((item) => grid.appendChild(createCard(item)));
 }
 
@@ -228,7 +239,6 @@ function wireSearch() {
   });
 }
 
-/* Scroll Observer for Sticky Liquid Glass Header & Search Bar Toggle */
 function wireScrollObserver() {
   const navbar = $(".navbar");
   const navSearchBar = $(".search-bar");
@@ -239,11 +249,9 @@ function wireScrollObserver() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) {
-        // Hero search bar is scrolled out of view
         navbar.classList.add("glass");
         navSearchBar.classList.add("visible");
       } else {
-        // Hero search bar is still visible
         navbar.classList.remove("glass");
         navSearchBar.classList.remove("visible");
       }
