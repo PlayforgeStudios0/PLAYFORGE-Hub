@@ -228,6 +228,31 @@ function wireSearch() {
   });
 }
 
+/* Scroll Observer for Sticky Liquid Glass Header & Search Bar Toggle */
+function wireScrollObserver() {
+  const navbar = $(".navbar");
+  const navSearchBar = $(".search-bar");
+  const heroSearch = $("#heroSearchInput");
+
+  if (!heroSearch) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        // Hero search bar is scrolled out of view
+        navbar.classList.add("glass");
+        navSearchBar.classList.add("visible");
+      } else {
+        // Hero search bar is still visible
+        navbar.classList.remove("glass");
+        navSearchBar.classList.remove("visible");
+      }
+    });
+  }, { threshold: 0.1 });
+
+  observer.observe(heroSearch);
+}
+
 function openModal(item) {
   $("#mIcon").src = item.icon;
   $("#mName").textContent = item.name;
@@ -375,6 +400,7 @@ function init() {
   wireCategoryPills();
   wireSearch();
   wireModal();
+  wireScrollObserver();
   loadAll();
 }
 
