@@ -33,15 +33,23 @@
       background: var(--bg-main);
       color: var(--ink-100);
       min-height: 100vh;
-      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
       background: radial-gradient(circle at top, #132238 0%, var(--bg-main) 80%);
     }
 
-    .admin-container {
+    .admin-card {
       width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
+      max-width: 580px;
+      background: rgba(21, 28, 44, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
     }
 
     .admin-header {
@@ -113,7 +121,7 @@
       min-height: 100px;
     }
 
-    /* Equalized 2-Column Grid for Category & Age */
+    /* Category & Age Option Toggles */
     .category-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -290,7 +298,7 @@
 </head>
 <body>
 
-  <div class="admin-container">
+  <div class="admin-card">
     <div class="admin-header">
       <div class="brand-title">
         <i class="ri-gamepad-line"></i> PLAYFORGE HUB
