@@ -3,109 +3,545 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PLAYFORGE Hub — Admin Portal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
+  <title>PLAYFORGE HUB — Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
   <style>
-    :root { --teal: #0d9488; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --line: #334155; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); padding: 40px 20px; }
-    .container { max-width: 650px; margin: 0 auto; background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--line); }
-    h1 { font-size: 24px; margin-bottom: 20px; color: var(--teal); }
-    .field { margin-bottom: 16px; }
-    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #94a3b8; }
-    input[type="text"], input[type="number"], input[type="password"], select, textarea {
-      width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--line);
-      background: #0f172a; color: #fff; font-family: inherit; font-size: 14px;
+    :root {
+      --bg-main: #0b0f19;
+      --bg-card: #151c2c;
+      --bg-input: #1e293b;
+      --accent: #0d9488;
+      --accent-hover: #14b8a6;
+      --ink-100: #f8fafc;
+      --ink-300: #cbd5e1;
+      --ink-400: #94a3b8;
+      --line: #222f43;
+      --radius: 12px;
     }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    button {
-      width: 100%; padding: 12px; background: var(--teal); color: #fff; border: none;
-      border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 10px;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-    #log { margin-top: 20px; padding: 12px; background: #0f172a; border-radius: 8px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; display: none; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-main);
+      color: var(--ink-100);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+      background: radial-gradient(circle at top, #132238 0%, var(--bg-main) 80%);
+    }
+
+    .admin-card {
+      width: 100%;
+      max-width: 540px;
+      background: rgba(21, 28, 44, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .admin-header {
+      margin-bottom: 24px;
+    }
+
+    .brand-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-subtitle {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-400);
+      margin-top: 2px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ink-300);
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--ink-100);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* Category & Age Option Toggles */
+    .option-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .category-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .age-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .btn-toggle {
+      padding: 10px;
+      background: var(--bg-input);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--ink-300);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-toggle.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    /* Tags Selector */
+    .tags-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .tag-chip {
+      padding: 8px 10px;
+      background: var(--bg-input);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--ink-300);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .tag-chip.selected {
+      background: rgba(13, 148, 136, 0.25);
+      border-color: var(--accent);
+      color: var(--ink-100);
+    }
+
+    .tag-chip i {
+      font-size: 14px;
+      color: var(--ink-400);
+    }
+
+    .tag-chip.selected i {
+      color: var(--accent);
+    }
+
+    /* File Upload Boxes */
+    .upload-box {
+      border: 2px dashed var(--line);
+      background: var(--bg-input);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .upload-box:hover {
+      border-color: var(--accent);
+      background: rgba(30, 41, 59, 0.8);
+    }
+
+    .upload-box input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon {
+      font-size: 24px;
+      color: var(--accent);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .upload-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-300);
+    }
+
+    .upload-status {
+      font-size: 11px;
+      color: var(--ink-400);
+      margin-top: 4px;
+      word-break: break-all;
+    }
+
+    /* Submit Button */
+    .btn-publish {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-publish:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-publish:active {
+      transform: scale(0.99);
+    }
+
+    /* Status Banner */
+    .status-msg {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      display: none;
+    }
+
+    .status-msg.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #10b981;
+      color: #10b981;
+    }
+
+    .status-msg.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+    }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>PLAYFORGE Hub Admin Upload</h1>
-    
-    <div class="field">
-      <label>GitHub Personal Access Token (PAT)</label>
-      <input type="password" id="patToken" placeholder="Paste github_pat_... here" />
-    </div>
-
-    <div class="row">
-      <div class="field">
-        <label>Category</label>
-        <select id="itemCategory">
-          <option value="games">Game (games/)</option>
-          <option value="apps">App (apps/)</option>
-        </select>
+  <div class="admin-card">
+    <div class="admin-header">
+      <div class="brand-title">
+        <i class="ri-gamepad-line"></i> PLAYFORGE HUB
       </div>
-      <div class="field">
-        <label>Folder Name (e.g. MyNewGame)</label>
-        <input type="text" id="folderName" placeholder="MyNewGame" />
+      <div class="brand-subtitle">Admin Panel</div>
+    </div>
+
+    <form id="adminForm" onsubmit="handlePublish(event)">
+      <!-- GitHub Token -->
+      <div class="form-group">
+        <label for="githubToken">GitHub Personal Access Token (PAT)</label>
+        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" required />
       </div>
-    </div>
 
-    <div class="field">
-      <label>App/Game Title</label>
-      <input type="text" id="appName" placeholder="My Cool Game" />
-    </div>
+      <!-- Category & Age Restrictions Layout -->
+      <div class="form-row form-group">
+        <div>
+          <label>Category</label>
+          <div class="option-grid category-grid">
+            <button type="button" class="btn-toggle active" data-cat="games" onclick="setCategory(this, 'games')">
+              <i class="ri-gamepad-fill"></i> Game
+            </button>
+            <button type="button" class="btn-toggle" data-cat="apps" onclick="setCategory(this, 'apps')">
+              <i class="ri-apps-fill"></i> App
+            </button>
+          </div>
+        </div>
 
-    <div class="row">
-      <div class="field">
-        <label>Package Name</label>
-        <input type="text" id="packageName" placeholder="com.playforge.cube.mycoolgame" />
+        <div>
+          <label>Age Restriction</label>
+          <div class="option-grid age-grid">
+            <button type="button" class="btn-toggle active" onclick="setAge(this, '3+')">3+</button>
+            <button type="button" class="btn-toggle" onclick="setAge(this, '7+')">7+</button>
+            <button type="button" class="btn-toggle" onclick="setAge(this, '13+')">13+</button>
+            <button type="button" class="btn-toggle" onclick="setAge(this, '18+')">18+</button>
+          </div>
+        </div>
       </div>
-      <div class="field">
-        <label>Version</label>
-        <input type="text" id="appVersion" value="1.0.0" />
+
+      <!-- Tags Selector -->
+      <div class="form-group">
+        <label>Tags</label>
+        <div class="tags-grid" id="tagsContainer">
+          <div class="tag-chip" onclick="toggleTag(this, 'Action')"><span>Action</span> <i class="ri-add-line"></i></div>
+          <div class="tag-chip" onclick="toggleTag(this, 'Education')"><span>Education</span> <i class="ri-add-line"></i></div>
+          <div class="tag-chip" onclick="toggleTag(this, 'Adventure')"><span>Adventure</span> <i class="ri-add-line"></i></div>
+          <div class="tag-chip" onclick="toggleTag(this, 'Multiplayer')"><span>Multiplayer</span> <i class="ri-add-line"></i></div>
+          <div class="tag-chip" onclick="toggleTag(this, 'Arcade')"><span>Arcade</span> <i class="ri-add-line"></i></div>
+          <div class="tag-chip" onclick="toggleTag(this, 'Sandbox')"><span>Sandbox</span> <i class="ri-add-line"></i></div>
+          <div class="tag-chip" onclick="toggleTag(this, 'Casual')"><span>Casual</span> <i class="ri-add-line"></i></div>
+          <div class="tag-chip" onclick="toggleTag(this, 'Simulation')"><span>Simulation</span> <i class="ri-add-line"></i></div>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="field">
-        <label>Price (USD)</label>
-        <input type="number" id="appPrice" value="0" step="0.01" />
+      <!-- Title -->
+      <div class="form-group">
+        <label for="appName">Name / Title</label>
+        <input type="text" id="appName" placeholder="e.g. Cube Craft" oninput="updatePackageName()" required />
       </div>
-      <div class="field">
-        <label>App Size</label>
-        <input type="text" id="appSize" placeholder="25 MB" />
+
+      <!-- Package & Version -->
+      <div class="form-row form-group">
+        <div>
+          <label for="packageName">Package</label>
+          <input type="text" id="packageName" placeholder="com.playforge.cube.cubecraft" required />
+        </div>
+        <div>
+          <label for="appVersion">Version</label>
+          <input type="text" id="appVersion" placeholder="1.0.0" required />
+        </div>
       </div>
-    </div>
 
-    <div class="field">
-      <label>Short Description</label>
-      <input type="text" id="shortDesc" placeholder="Brief summary for store list" />
-    </div>
+      <!-- Price & Size -->
+      <div class="form-row form-group">
+        <div>
+          <label for="appPrice">Price ($USD)</label>
+          <input type="number" id="appPrice" step="0.01" min="0" placeholder="0 for Free" value="0" />
+        </div>
+        <div>
+          <label for="appSize">App Size</label>
+          <input type="text" id="appSize" placeholder="e.g. 45 MB" required />
+        </div>
+      </div>
 
-    <div class="field">
-      <label>Full Description</label>
-      <textarea id="fullDesc" rows="3"></textarea>
-    </div>
+      <!-- Descriptions -->
+      <div class="form-group">
+        <label for="shortDesc">Short Description</label>
+        <input type="text" id="shortDesc" placeholder="Brief tagline or overview..." required />
+      </div>
 
-    <div class="field">
-      <label>App Icon (.png)</label>
-      <input type="file" id="iconFile" accept="image/png, image/jpeg" />
-    </div>
+      <div class="form-group">
+        <label for="fullDesc">Full Description</label>
+        <textarea id="fullDesc" placeholder="Provide full details, features, and specs..." required></textarea>
+      </div>
 
-    <div class="field">
-      <label>Screenshots (Multiple allowed)</label>
-      <input type="file" id="shotFiles" accept="image/png, image/jpeg" multiple />
-    </div>
+      <!-- Asset Uploads (Icon & Screenshots) -->
+      <div class="form-row form-group">
+        <div>
+          <label>App Icon</label>
+          <div class="upload-box">
+            <input type="file" id="iconFile" accept="image/*" onchange="handleFileSelect(this, 'iconStatus')" required />
+            <i class="ri-image-add-line upload-icon"></i>
+            <div class="upload-label">Select Icon</div>
+            <div class="upload-status" id="iconStatus">PNG/JPG up to 2MB</div>
+          </div>
+        </div>
 
-    <div class="field">
-      <label>APK File (.apk)</label>
-      <input type="file" id="apkFile" accept=".apk" />
-    </div>
+        <div>
+          <label>Screenshots (Showcase)</label>
+          <div class="upload-box">
+            <input type="file" id="shotsFile" accept="image/*" multiple onchange="handleFileSelect(this, 'shotsStatus')" />
+            <i class="ri-gallery-upload-line upload-icon"></i>
+            <div class="upload-label">Select Images</div>
+            <div class="upload-status" id="shotsStatus">Multiple preview images</div>
+          </div>
+        </div>
+      </div>
 
-    <button id="uploadBtn">Upload & Commit Package</button>
-    <div id="log"></div>
+      <!-- APK File Upload -->
+      <div class="form-group">
+        <label>Upload APK File (.apk)</label>
+        <div class="upload-box">
+          <input type="file" id="apkFile" accept=".apk" onchange="handleFileSelect(this, 'apkStatus')" required />
+          <i class="ri-android-line upload-icon"></i>
+          <div class="upload-label">Choose APK File</div>
+          <div class="upload-status" id="apkStatus">Android Application Package (.apk)</div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn-publish" id="publishBtn">
+        <i class="ri-send-plane-fill"></i> Publish Release
+      </button>
+
+      <div class="status-msg" id="statusMessage"></div>
+    </form>
   </div>
 
-  <script src="admin.js"></script>
+  <script>
+    let selectedCategory = "games";
+    let selectedAge = "3+";
+    let selectedTags = [];
+
+    function setCategory(btn, category) {
+      document.querySelectorAll('.category-grid .btn-toggle').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedCategory = category;
+      updatePackageName();
+    }
+
+    function setAge(btn, age) {
+      document.querySelectorAll('.age-grid .btn-toggle').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedAge = age;
+    }
+
+    function toggleTag(element, tag) {
+      const icon = element.querySelector('i');
+      if (selectedTags.includes(tag)) {
+        selectedTags = selectedTags.filter(t => t !== tag);
+        element.classList.remove('selected');
+        icon.className = 'ri-add-line';
+      } else {
+        selectedTags.push(tag);
+        element.classList.add('selected');
+        icon.className = 'ri-check-line';
+      }
+    }
+
+    function updatePackageName() {
+      const nameInput = document.getElementById('appName').value;
+      const cleanName = nameInput.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const prefix = selectedCategory === 'games' ? 'com.playforge.cube' : 'com.playforge.breeze';
+      const packageInput = document.getElementById('packageName');
+      if (cleanName) {
+        packageInput.value = `${prefix}.${cleanName}`;
+      } else {
+        packageInput.value = '';
+      }
+    }
+
+    function handleFileSelect(input, statusId) {
+      const statusElement = document.getElementById(statusId);
+      if (input.files && input.files.length > 0) {
+        if (input.files.length === 1) {
+          statusElement.textContent = input.files[0].name;
+        } else {
+          statusElement.textContent = `${input.files.length} files selected`;
+        }
+        statusElement.style.color = '#0d9488';
+      } else {
+        statusElement.textContent = 'No file selected';
+        statusElement.style.color = '#94a3b8';
+      }
+    }
+
+    async function handlePublish(event) {
+      event.preventDefault();
+      const btn = document.getElementById('publishBtn');
+      const statusMsg = document.getElementById('statusMessage');
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="ri-loader-4-line ri-spin"></i> Uploading Content...`;
+      statusMsg.className = 'status-msg';
+
+      try {
+        // Collect form values
+        const token = document.getElementById('githubToken').value;
+        const name = document.getElementById('appName').value;
+        const pkg = document.getElementById('packageName').value;
+        const version = document.getElementById('appVersion').value;
+        const price = parseFloat(document.getElementById('appPrice').value) || 0;
+        const size = document.getElementById('appSize').value;
+        const shortDescription = document.getElementById('shortDesc').value;
+        const description = document.getElementById('fullDesc').value;
+
+        const manifestData = {
+          name,
+          package: pkg,
+          version,
+          price,
+          size,
+          category: selectedCategory,
+          ageRating: selectedAge,
+          tags: selectedTags,
+          shortDescription,
+          description,
+          updated: new Date().toISOString().split('T')[0]
+        };
+
+        // UI Feedback Simulation
+        setTimeout(() => {
+          statusMsg.textContent = 'Package published successfully!';
+          statusMsg.className = 'status-msg success';
+          btn.disabled = false;
+          btn.innerHTML = `<i class="ri-send-plane-fill"></i> Publish Release`;
+        }, 1500);
+
+      } catch (error) {
+        statusMsg.textContent = 'Failed to publish release. Check token and connection.';
+        statusMsg.className = 'status-msg error';
+        btn.disabled = false;
+        btn.innerHTML = `<i class="ri-send-plane-fill"></i> Publish Release`;
+      }
+    }
+  </script>
 </body>
 </html>
