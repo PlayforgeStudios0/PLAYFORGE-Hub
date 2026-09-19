@@ -33,27 +33,21 @@
       background: var(--bg-main);
       color: var(--ink-100);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px 16px;
+      width: 100%;
       background: radial-gradient(circle at top, #132238 0%, var(--bg-main) 80%);
     }
 
-    .admin-card {
+    .admin-container {
       width: 100%;
-      max-width: 540px;
-      background: rgba(21, 28, 44, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 28px 24px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
     }
 
     .admin-header {
       margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
     }
 
     .brand-title {
@@ -80,7 +74,7 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
     }
 
     label {
@@ -116,7 +110,7 @@
 
     textarea {
       resize: vertical;
-      min-height: 90px;
+      min-height: 100px;
     }
 
     /* Category & Age Option Toggles */
@@ -164,12 +158,12 @@
     }
 
     .tag-chip {
-      padding: 8px 10px;
+      padding: 10px 12px;
       background: var(--bg-input);
       border: 1px solid var(--line);
       border-radius: 8px;
       color: var(--ink-300);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -296,7 +290,7 @@
 </head>
 <body>
 
-  <div class="admin-card">
+  <div class="admin-container">
     <div class="admin-header">
       <div class="brand-title">
         <i class="ri-gamepad-line"></i> PLAYFORGE HUB
@@ -503,7 +497,6 @@
       statusMsg.className = 'status-msg';
 
       try {
-        // Collect form values
         const token = document.getElementById('githubToken').value;
         const name = document.getElementById('appName').value;
         const pkg = document.getElementById('packageName').value;
@@ -527,7 +520,6 @@
           updated: new Date().toISOString().split('T')[0]
         };
 
-        // UI Feedback Simulation
         setTimeout(() => {
           statusMsg.textContent = 'Package published successfully!';
           statusMsg.className = 'status-msg success';
